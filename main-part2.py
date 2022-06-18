@@ -3,6 +3,8 @@ import numpy as np
 import imutils
 import cv2
 
+images = [cv2.imread(file, cv2.CV_16U) for file in sorted(glob.glob(f"{PATH_RESULTS}/*/{IMAGE_MEDIAN}{EXTENSION}"))]
+
 assert len(images) != 0, "Missing images from part1!"
 
 # Image rotation - init parameters

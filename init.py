@@ -7,6 +7,7 @@ import cv2
 PATH_DATA = "data"
 PATH_RESULTS = "results"
 
+IMAGE_SUM = "0_sum"
 IMAGE_ORIGINAL = "1_original"
 IMAGE_COUNT = "1_count"
 IMAGE_MEDIAN = "2_median"
@@ -20,6 +21,7 @@ EXTENSION = ".png"
 # Quantile thresholds for removing outliers
 QUANTILE_THRESH_LOW = 0.001
 QUANTILE_THRESH_HIGH = 0.999
+QUANTILE_BLOCK_THRESH_HIGH = 0.99
 
 # Scale constants for images
 # - the bigger value the bigger shape of image
@@ -36,6 +38,8 @@ GUI_CROP_STEP = 100
 FIELD_COUNT = 5
 BLOCK_COUNT = 48
 
+FILTER_BLOCKS = None
+
 # Split block to parts to calculate deformation
 BLOCK_PART = 3  # fraction
 
@@ -43,17 +47,18 @@ BLOCK_PART = 3  # fraction
 LIM_INTERVAL = 1.3
 LIM_HEIGHT = 10
 
+IMAGE_SUM_DIVIDE = 1
+
 # Create tree if not exists
 os.makedirs(PATH_DATA, exist_ok=True)
 os.makedirs(PATH_RESULTS, exist_ok=True)
 
 # Load images, files and get dates
-images = [cv2.imread(file, cv2.CV_16U) for file in sorted(glob.glob(f"{PATH_RESULTS}/*/{IMAGE_MEDIAN}{EXTENSION}"))]
 files = []
 dates = []
 
 for i in sorted(glob.glob(f"{PATH_RESULTS}/*")):
-    if not os.path.isdir(i):
+    if not os.path.isdir(i) or "block" in i:
         continue
 
     filename = os.path.splitext(os.path.split(i)[1])[0]
@@ -64,5 +69,3 @@ for i in sorted(glob.glob(f"{PATH_RESULTS}/*")):
         year=int("20" + date[:2]), month=int(date[2:4]), day=int(date[4:6]),
         hour=int(time[:2]), minute=int(time[2:4]), second=int(time[4:6]))
     )
-
-assert len(images) == len(files) == len(dates), "Length of images and file and date does not match"

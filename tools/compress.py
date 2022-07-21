@@ -7,7 +7,7 @@ SCALE = 1/2  # Fraction
 BIT_CONVERSION = False
 
 for i in glob.glob("docs/*"):
-    if "compressed" in i or "blocks" in i or "fit" in i or "svg" in i:
+    if "compressed" in i or "blocks" in i or "fit" in i or "svg" in i or "height" in i or "terrain" in i:
         continue
 
     if BIT_CONVERSION:

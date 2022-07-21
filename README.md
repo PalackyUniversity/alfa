@@ -83,7 +83,7 @@ Finally, for each sub-block program:
 
 1. Subtracts from it the same sub-block from first las file (the earliest record in time series when nothing has grown yet = terrain)
 
-![Terrain](docs/terrain_compressed.png "Terrain")
+![Terrain](docs/terrain.png "Terrain")
 
 2. Computes:
    - Mean
@@ -103,6 +103,23 @@ Finally, for each sub-block program:
 
 ![Analysis](docs/4_cropped_draw_compressed.jpg "Analysis")
 
+Matlab program fits sigmoid for each growth curve with parameters A, B, C:
+
+<p align="center">
+ <img src="docs/sigmoid.svg">
+</p>
+
+Visualization with treatment ID of parameter A (max height):
+
+![A](docs/A_compressed.png "A")
+
+Visualization with treatment ID of parameter B ("speed"):
+
+![A](docs/A_compressed.png "B")
+
+Visualization with treatment ID of parameter C (offset):
+
+![A](docs/A_compressed.png "C")
 
 ## Validation
 
@@ -207,6 +224,7 @@ gcc -shared -o main.so main.c
    6. Press *enter* or key *q*
 4. Run `python3 main-part3.py` to create analysis
 5. Results are in `results` folder
+6. Run Matlab code
 
 ### Validation
 To run validation, you need to have `las` or `txt` file with reference heights. Then you can save them into `calibration` folder. Then paste this to terminal: `python3 tools/validate_heights.py`

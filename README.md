@@ -103,10 +103,38 @@ Finally, for each sub-block program:
 
 ![Analysis](docs/4_cropped_draw_compressed.jpg "Analysis")
 
+
+## Validation
+
+### Reference height validation
+
+Reference height validation is important for understanding how much is LiDAR accurate. It is determined by subtracting LiDAR measured height from referenced height measured manually with ruler.
+
+#### Error (difference) distribution statistics
+
+| Metric | Value [m] | Value of absolute error [m] |
+|--------|-----------|-----------------------------|
+| Mean   | 0.0049    | 0.0410                      |
+| STD    | 0.0522    | 0.0325                      |
+| Median | 0.0061    | 0.0333                      |
+| Q25    | -0.0252   | 0.0143                      |
+| Q75    | 0.0359    | 0.0579                      |
+| Min    | -0.1334   | 0.0019                      |
+| Max    | 0.1311    | 0.1334                      |
+| RMSD   | 0.0522    | -                           |
+
+#### Error (difference) distribution histogram
+
+![Histogram of error](docs/height_diff_histogram.png "Histogram of error")
+
+#### Error (difference) in image
+
+![Reference in image](docs/height_diff_image_compressed.png "Reference in image")
+
 ## Structure
 
-### Folders
-- `data` - input folder for las files
+- `calibration` - calibration `las` or `txt` files
+- `data` - input folder for `las` files
   - `210420_065626.las` - datetime in filename `YYMMDD_HHMMSS *.las`, e.g.:
   - `210504_064914.las`
   - ...
@@ -118,14 +146,19 @@ Finally, for each sub-block program:
     - ...
   - `210504_064914`
     - ...
-    
-### Files
-
+  - `terrain.png` - fixed terrain height stability over time
+  - `terrain_image.png` - visualized fixed cropped terrain
+  - `height_diff_histogram.png` - difference between reference and measured heights plotted in histogram
+  - `height_diff_image.png` - difference between reference and measured heights plotted in image
+- `tools`
+  - `compress.py` - Python script to compresses images for documentation
+  - `validate_heights.py` - Python script to validate manually measured reference heights with LiDAR heights
+  - `validate_terrain.py` - Python script to validate terrain height stability over time
 - `main.c` - optimized C script for converting 3D las data to 2D image and computing median 
 - `main-part1.py` - Python wrapper for C script
 - `main-part2.py` - User GUI for precise field rotation and field selection
 - `main-part3.py` - Python script for analysis
-- `init.py` - constants + common things
+- `init.py` - constants + common block of codes
 
 ## Install on Debian based Linux:
 
@@ -159,6 +192,9 @@ gcc -shared -o main.so main.c
    6. Press *enter* or key *q*
 4. Run `python3 main-part3.py` to create analysis
 5. Results are in `results` folder
+
+### Validation
+To run validation, you need to have `las` or `txt` file with reference heights. Then you can save them into `calibration` folder. Then paste this to terminal: `python3 tools/validate_heights.py`
 
 ## Tested on:
 - MacOS 12 Python 3.8

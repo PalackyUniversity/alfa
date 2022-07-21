@@ -6,8 +6,8 @@ import os
 SCALE = 1/2  # Fraction
 BIT_CONVERSION = False
 
-for i in glob.glob("../docs/*"):
-    if "compressed" in i or "blocks" in i or "fit" in i:
+for i in glob.glob("docs/*"):
+    if "compressed" in i or "blocks" in i or "fit" in i or "svg" in i:
         continue
 
     if BIT_CONVERSION:

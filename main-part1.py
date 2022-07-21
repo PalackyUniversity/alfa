@@ -73,8 +73,6 @@ for n in tqdm(range(len(las_files)), desc="Loading LiDAR files..."):
 
     os.makedirs(dir_path, exist_ok=True)
 
-z_min = z_min + (z_max - z_min) * 0.3
-
 # Calculate width-height scale factor
 scale_factor = max((x_max - x_min), (y_max - y_min)) / WH_SCALE
 

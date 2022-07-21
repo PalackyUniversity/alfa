@@ -1,9 +1,14 @@
+import json
+
 from init import *
 import numpy as np
 import imutils
 import cv2
 
 images = [cv2.imread(file, cv2.CV_16U) for file in sorted(glob.glob(f"{PATH_RESULTS}/*/{IMAGE_MEDIAN}{EXTENSION}"))]
+
+with open(f"{PATH_RESULTS}/info.json") as f:
+    info = json.load(f)
 
 assert len(images) != 0, "Missing images from part1!"
 
@@ -86,6 +91,13 @@ for point in [point_lu, point_rb]:
 
         elif key == 13 or key == ord("q"):  # Key Enter or key "q"
             break
+
+info["angle"] = rotation_angle
+info["point_lu"] = point_lu.tolist()
+info["point_rb"] = point_rb.tolist()
+
+with open(f"{PATH_RESULTS}/info.json", "w") as f:
+    json.dump(info, f)
 
 # Save images
 for n, image in enumerate(images):

@@ -169,6 +169,12 @@ Image example:
 - `main-part3.py` - Python script for analysis
 - `init.py` - constants + common block of codes
 
+## Performance
+
+Code is also optimized for speed. Critical parts of code are written in C and compiled with `gcc` compiler. On low budget PC it takes lower tens of seconds. The most of the time takes loading big unprocessed `las` files.
+
+Compared to existing [solutions](https://github.com/UPOL-Plant-phenotyping-research-group/UAV-crop-analyzer), this program is about **100x** faster even when using just single core of CPU.
+
 ## Install on Debian based Linux:
 
 ### Install Python3 and gcc

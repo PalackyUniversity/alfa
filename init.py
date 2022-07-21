@@ -1,7 +1,6 @@
 import datetime
 import os.path
 import glob
-import cv2
 
 # Paths and filenames
 PATH_DATA = "data"

@@ -73,6 +73,8 @@ for n in tqdm(range(len(las_files)), desc="Loading LiDAR files..."):
 
     os.makedirs(dir_path, exist_ok=True)
 
+z_min = z_min + (z_max - z_min) * 0.3
+
 # Calculate width-height scale factor
 scale_factor = max((x_max - x_min), (y_max - y_min)) / WH_SCALE
 
@@ -80,7 +82,7 @@ scale_factor = max((x_max - x_min), (y_max - y_min)) / WH_SCALE
 for n in tqdm(range(len(las_data)), desc="Normalizing data..."):
     las_data[n]["x"] = np.around((las_data[n]["x"] - x_min) / scale_factor)
     las_data[n]["y"] = np.around((las_data[n]["y"] - y_min) / scale_factor)
-    las_data[n]["z"] = np.around((las_data[n]["z"] - z_min) / (z_max - z_min) * Z_MAX)
+    las_data[n]["z"] = np.clip(np.around((las_data[n]["z"] - z_min) / (z_max - z_min) * Z_MAX), 0, 65535)
 
 image_shape = math.ceil((y_max - y_min) / scale_factor) + 1, math.ceil((x_max - x_min) / scale_factor) + 1
 
@@ -94,6 +96,7 @@ with open(f"{PATH_RESULTS}/info.json", "w") as f:
         "z_max": z_max,
         "wh_scale": WH_SCALE,
         "z_scale": Z_MAX,
+        "scale_factor": scale_factor,
     }, f)
 
 

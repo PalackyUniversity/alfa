@@ -137,7 +137,7 @@ Reference height validation is important for understanding how much is LiDAR acc
 
 Image example:
 
-![Terrain example image](docs/terrain_image.png "Terrain example image")
+![Terrain example image](docs/terrain_image_compressed.png "Terrain example image")
 
 
 ## Structure

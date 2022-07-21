@@ -131,6 +131,15 @@ Reference height validation is important for understanding how much is LiDAR acc
 
 ![Reference in image](docs/height_diff_image_compressed.png "Reference in image")
 
+### Terrain altitude validation over time
+
+![Terrain altitude over time](docs/terrain.png "Terrain altitude over time")
+
+Image example:
+
+![Terrain example image](docs/terrain_image.png "Terrain example image")
+
+
 ## Structure
 
 - `calibration` - calibration `las` or `txt` files

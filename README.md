@@ -185,6 +185,7 @@ Image example:
     - `1_count.png` 
     - `1_original.png`
     - `2_median.png`
+    - `3_rotated.png`
     - ...
   - `210504_064914`
     - ...
@@ -192,10 +193,14 @@ Image example:
   - `terrain_image.png` - visualized fixed cropped terrain
   - `height_diff_histogram.png` - difference between reference and measured heights plotted in histogram
   - `height_diff_image.png` - difference between reference and measured heights plotted in image
+  - `statistics.csv` - all output statistics from Python scripts for visualization and evaluation
+  - `info.json` - all computed information used internally to share between scripts
 - `tools`
   - `compress.py` - Python script to compresses images for documentation
   - `validate_heights.py` - Python script to validate manually measured reference heights with LiDAR heights
   - `validate_terrain.py` - Python script to validate terrain height stability over time
+  - `visualize.py` - Python script that visualizes Matlab's sigmoid fit parameters for each sub-block into image
+  - `visualize_sigmoid.py` - Python script that visualizes Matlab's sigmoid fits for each sub-block
 - `main.c` - optimized C script for converting 3D las data to 2D image and computing median 
 - `main-part1.py` - Python wrapper for C script
 - `main-part2.py` - User GUI for precise field rotation and field selection

@@ -109,17 +109,33 @@ Matlab program fits sigmoid for each growth curve with parameters A, B, C:
  <img src="docs/sigmoid.svg">
 </p>
 
+### Visualization of sigmoid of sub-blocks for each block
+
+Visualization of sigmoid of sub-blocks for block 1:
+
+![1](docs/sigmoid-1.png "1")
+
+Visualization of sigmoid of sub-blocks for block 2:
+
+![2](docs/sigmoid-2.png "2")
+
+Visualization of sigmoid of sub-blocks for block 3:
+
+![3](docs/sigmoid-3.png "3")
+
+### Sigmoid parameter visualization
+
 Visualization with treatment ID of parameter A (max height):
 
 ![A](docs/A_compressed.png "A")
 
 Visualization with treatment ID of parameter B ("speed"):
 
-![A](docs/A_compressed.png "B")
+![A](docs/B_compressed.png "B")
 
 Visualization with treatment ID of parameter C (offset):
 
-![A](docs/A_compressed.png "C")
+![A](docs/C_compressed.png "C")
 
 ## Validation
 

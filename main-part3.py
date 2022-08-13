@@ -46,9 +46,10 @@ def find_diff_peaks(diff: np.ndarray, count: int):
 
 def find_blocks(image_block: np.ndarray, count: int, name: str, path: str, lim: float = LIM_INTERVAL):
     image_sum = np.sum(image_block, axis=0)
-    image_sum = np.log(image_sum)  # / np.max(image_sum)
+    # image_sum = np.log(image_sum)  # / np.max(image_sum)
+    image_sum = image_sum / np.max(image_sum)
 
-    # image_sum = savgol_filter(image_sum, 51, 5)
+    image_sum = savgol_filter(image_sum, 51, 10)  # TODO two constants
 
     diff = np.diff(image_sum)
     # diff[np.abs(diff) <= 1 * diff.std()] = 0
@@ -57,6 +58,7 @@ def find_blocks(image_block: np.ndarray, count: int, name: str, path: str, lim: 
     lower_peaks = find_diff_peaks(diff * (-1), count)
 
     positions = []
+    positions_heights = []
 
     # Find all blocks
     for upper_peak in upper_peaks:
@@ -64,6 +66,7 @@ def find_blocks(image_block: np.ndarray, count: int, name: str, path: str, lim: 
             if lower_peak > upper_peak:
                 if lower_peak - upper_peak >= len(diff) / count / lim:
                     positions.append((upper_peak, lower_peak))
+                    positions_heights.append((diff[upper_peak] * 50, abs(diff[lower_peak]) * 50))
                     break
 
     # Visualize up part
@@ -89,7 +92,19 @@ def find_blocks(image_block: np.ndarray, count: int, name: str, path: str, lim: 
     plt.savefig(f"{PATH_RESULTS}/{path}_sum{EXTENSION}")
     plt.cla()
 
+    plt.scatter(range(len(positions)), [m[0] for m in positions], s=[m[0] for m in positions_heights], label="Start")
+    plt.scatter(range(len(positions)), [m[1] for m in positions], s=[m[1] for m in positions_heights], label="End")
+    plt.title(f"{name} - detected peaks")
+    plt.xlabel("Peak index")
+    plt.ylabel("Pixel index")
+    plt.legend()
+    plt.savefig(f"{PATH_RESULTS}/{path}_peaks{EXTENSION}")
+    plt.cla()
+
+    assert len(set([m[0] for m in positions])) == len(set([m[1] for m in positions])), "Something went wrong - peaks"
+
     return positions
+
 
 block_positions = find_blocks(image_sum_z, FIELD_COUNT, "Detect peaks from derivative", "blocks")
 block_parts = []

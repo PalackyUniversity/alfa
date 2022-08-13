@@ -37,7 +37,7 @@ GUI_CROP_STEP = 100
 FIELD_COUNT = 5
 BLOCK_COUNT = 48
 
-FILTER_BLOCKS = None
+FILTER_BLOCKS = [3, 4]
 
 # Split block to parts to calculate deformation
 BLOCK_PART = 3  # fraction

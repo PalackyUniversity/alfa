@@ -11,6 +11,7 @@ import cv2
 
 MAX_FILTER_SIZE = 10
 FONT_SCALE = .7
+ROUND = 4
 
 sns.set_theme()
 
@@ -102,18 +103,18 @@ for _, row in df.iterrows():
         cv2.putText(image_last, f"{c:.2f}", (px + 8, py + 20), cv2.FONT_HERSHEY_SIMPLEX, FONT_SCALE, (0, Z_MAX // 2, Z_MAX), 2)
 
 for df_what, df_name in [(df["height_diff"], ""), (np.abs(df["height_diff"]), " of abs")]:
-    print("Mean" + df_name, df_what.mean())
-    print(" - STD", df_what.std())
-    print("Median" + df_name, np.median(df_what))
-    print(" - Q01", np.quantile(df_what, 0.01))
-    print(" - Q05", np.quantile(df_what, 0.05))
-    print(" - Q25", np.quantile(df_what, 0.25))
-    print(" - Q75", np.quantile(df_what, 0.75))
-    print(" - Q95", np.quantile(df_what, 0.95))
-    print(" - Q99", np.quantile(df_what, 0.99))
-    print("Min" + df_name, df_what.min())
-    print("Max" + df_name, df_what.max())
-    print("RMSD" + df_name, np.sqrt(np.mean(df_what ** 2)))
+    print("Mean" + df_name, round(df_what.mean(), ROUND))
+    print(" - STD", round(df_what.std(), ROUND))
+    print("Median" + df_name, round(np.median(df_what), ROUND))
+    print(" - Q01", round(np.quantile(df_what, 0.01), ROUND))
+    print(" - Q05", round(np.quantile(df_what, 0.05), ROUND))
+    print(" - Q25", round(np.quantile(df_what, 0.25), ROUND))
+    print(" - Q75", round(np.quantile(df_what, 0.75), ROUND))
+    print(" - Q95", round(np.quantile(df_what, 0.95), ROUND))
+    print(" - Q99", round(np.quantile(df_what, 0.99), ROUND))
+    print("Min" + df_name, round(df_what.min(), ROUND))
+    print("Max" + df_name, round(df_what.max(), ROUND))
+    print("RMSD" + df_name, round(np.sqrt(np.mean(df_what ** 2)), ROUND))
     print()
 
 # Draw plot

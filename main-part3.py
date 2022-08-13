@@ -108,7 +108,8 @@ def find_blocks(image_block: np.ndarray, count: int, name: str, path: str, lim: 
 
 block_positions = find_blocks(image_sum_z, FIELD_COUNT, "Detect peaks from derivative", "blocks")
 block_parts = []
-cropped_draw = cv2.cvtColor(np.uint8(image_sum_z / 255), cv2.COLOR_GRAY2BGR)
+
+cropped_draw = cv2.cvtColor(np.uint8(images[-1].astype(float) / np.quantile(images[-1], .99) * 128), cv2.COLOR_GRAY2BGR)
 
 for n, (block_start, block_end) in tqdm(enumerate(block_positions), desc="Analyzing..."):
     # If filtering is enabled

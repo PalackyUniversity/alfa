@@ -11,25 +11,25 @@ In `main-part1.py` program for each `las` file in `data` folder:
 5. Normalizes `Z` axis, then scales it to 16bit image
 6. Uses **dynamic averaging** - multiple 3D points at the same position in pixel grid are averaged, then 3D point count is visualized in `1_count.png` 
 
-![Count](docs/1_count_compressed.png "Count")
+![Count](docs/1_count_compressed.jpg "Count")
 
 7. Converts 3D data into 2D pixel grid, saves it into `1_original.png`
 
-![Original](docs/1_original_compressed.png "Original")
+![Original](docs/1_original_compressed.jpg "Original")
 
 8. Makes **median** of `1_original.png` that ignores zeroes when calculating median and then every black pixel replaces with median value => maximizes information from just few 3D points. Then saves it into `2_median.png`
 
-![Median](docs/2_median_compressed.png "Median")
+![Median](docs/2_median_compressed.jpg "Median")
 
 In `main-part2.py` then for last image in time series:
 
 1. User rotates image using GUI, so that longer sides of blocks of field are vertical, program saves it into `3_rotated.png`
 
-![Rotation](docs/3_rotated_compressed.png "Rotation")
+![Rotation](docs/3_rotated_compressed.jpg "Rotation")
 
 2. User selects field for analysis from rotated image using GUI, program saves it into `4_cropped.png`
 
-![Crop](docs/4_cropped_compressed.png "Crop")
+![Crop](docs/4_cropped_compressed.jpg "Crop")
 
 3. Program automatically rotates and crops all other images
 
@@ -48,7 +48,7 @@ In `main-part3.py` program:
 
 4. Separates each block into separate image, saves example output in new folder - e.g. `block_1/0_block.png`
 
-![Block](docs/0_block_compressed.png "Block")
+![Block](docs/0_block_compressed.jpg "Block")
 
 5. Split block into upper and bottom part
 
@@ -67,17 +67,17 @@ Then program puts upper and bottom edge detections together and:
 
 <!-- ![Block deformation](docs/0_block_compressed.png "Block deformation") -->
 
-![Block deformation draw](docs/0_block_draw_compressed.png "Block deformation draw")
+![Block deformation draw](docs/0_block_draw_compressed.jpg "Block deformation draw")
 
 2. Removes deformation
 
 <!-- ![Without deformation](docs/1_warped_compressed.png "Without deformation") -->
 
-![Without deformation draw](docs/1_warped_draw_compressed.png "Without deformation draw")
+![Without deformation draw](docs/1_warped_draw_compressed.jpg "Without deformation draw")
 
 3. Applies local maxima filter (with kernel size 1/10 sub-block width)
 
-![Maxima](docs/1_warped_max_compressed.png "Maxima")
+![Maxima](docs/1_warped_max_compressed.jpg "Maxima")
 
 Finally, for each sub-block program:
 
@@ -147,13 +147,13 @@ Reference height validation is important for understanding how much is LiDAR acc
 
 | Metric | Value [m] | Value of absolute error [m] |
 |--------|-----------|-----------------------------|
-| Mean   | 0.0049    | 0.0410                      |
-| STD    | 0.0522    | 0.0325                      |
-| Median | 0.0061    | 0.0333                      |
-| Q25    | -0.0252   | 0.0143                      |
+| Mean   | 0.0050    | 0.0410                      |
+| STD    | 0.0523    | 0.0325                      |
+| Median | 0.0062    | 0.0334                      |
+| Q25    | -0.0252   | 0.0144                      |
 | Q75    | 0.0359    | 0.0579                      |
-| Min    | -0.1334   | 0.0019                      |
-| Max    | 0.1311    | 0.1334                      |
+| Min    | -0.1335   | 0.0020                      |
+| Max    | 0.1312    | 0.1335                      |
 | RMSD   | 0.0522    | -                           |
 
 #### Error (difference) distribution histogram
@@ -162,7 +162,7 @@ Reference height validation is important for understanding how much is LiDAR acc
 
 #### Error (difference) in image
 
-![Reference in image](docs/height_diff_image_compressed.png "Reference in image")
+![Reference in image](docs/height_diff_image_compressed.jpg "Reference in image")
 
 ### Terrain altitude validation over time
 
@@ -234,6 +234,7 @@ gcc -shared -o main.so main.c
 ```
 
 ## Run
+0. Setup working directory as `/project/root/path`
 1. Paste/move your las files into data folder (match folder and file structure)
 2. Run `python3 main-part1.py` to generate images
 3. Run `python3 main-part2.py`

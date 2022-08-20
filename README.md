@@ -139,7 +139,7 @@ Visualization with treatment ID of parameter C ("growth onset"):
 
 ### Reference height validation
 
-Reference height validation is important for understanding how much is LiDAR accurate. It is determined by subtracting LiDAR measured height from referenced height measured manually with ruler.
+Reference height validation is important for understanding how much is LiDAR accurate. It is determined by subtracting LiDAR measured height from referenced height measured manually.
 
 #### Error (difference) distribution statistics
 
@@ -160,7 +160,7 @@ Reference height validation is important for understanding how much is LiDAR acc
 
 #### Error (difference) in image 
 
-Lower white values were measured by LiDAR and upper yellow values were measured manually by a ruler. 
+Lower white values were measured by LiDAR and upper yellow values were measured manually. 
 
 ![Reference in image](docs/height_diff_image_compressed.jpg "Reference in image")
 

@@ -158,7 +158,9 @@ Reference height validation is important for understanding how much is LiDAR acc
 
 ![Histogram of error](docs/height_diff_histogram.png "Histogram of error")
 
-#### Error (difference) in image
+#### Error (difference) in image 
+
+Lower value was measured by LiDAR and upper value was measured by ruler. 
 
 ![Reference in image](docs/height_diff_image_compressed.jpg "Reference in image")
 

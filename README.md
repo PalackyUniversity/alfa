@@ -123,15 +123,15 @@ Visualization of sigmoid of sub-blocks for block 3:
 
 ### Sigmoid parameter visualization
 
-Visualization with treatment ID of parameter A (max height):
+Visualization with treatment ID of parameter A ("maximum crop height"):
 
 ![A](docs/A_compressed.jpg "A")
 
-Visualization with treatment ID of parameter B ("speed"):
+Visualization with treatment ID of parameter B ("growth velocity"):
 
 ![A](docs/B_compressed.jpg "B")
 
-Visualization with treatment ID of parameter C (offset):
+Visualization with treatment ID of parameter C ("growth onset"):
 
 ![A](docs/C_compressed.jpg "C")
 

@@ -83,8 +83,6 @@ Finally, for each sub-block program:
 
 1. Subtracts from it the same sub-block from first las file (the earliest record in time series when nothing has grown yet = terrain)
 
-![Terrain](docs/terrain.png "Terrain")
-
 2. Computes:
    - Mean
    - Standard deviation
@@ -127,15 +125,15 @@ Visualization of sigmoid of sub-blocks for block 3:
 
 Visualization with treatment ID of parameter A (max height):
 
-![A](docs/A_compressed.png "A")
+![A](docs/A_compressed.jpg "A")
 
 Visualization with treatment ID of parameter B ("speed"):
 
-![A](docs/B_compressed.png "B")
+![A](docs/B_compressed.jpg "B")
 
 Visualization with treatment ID of parameter C (offset):
 
-![A](docs/C_compressed.png "C")
+![A](docs/C_compressed.jpg "C")
 
 ## Validation
 

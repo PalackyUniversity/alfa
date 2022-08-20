@@ -9,9 +9,10 @@ COLORS = ["blue", "orange", "green"]
 
 sns.set_theme()
 
-df = pd.read_excel(f"honza-data.xlsx")
+df = pd.read_csv(f"{PATH_RESULTS}/statistics.csv")
 
-date_times = df.columns[2:-4]
+date_times = [datetime.datetime.strptime(i, "%d/%m/%y %H:%M") for i in df.columns[3:-4]]
+
 t = np.linspace(0, (date_times[-1] - date_times[0]).days + 1, 1_000)
 x = [date_times[0] + datetime.timedelta(days=i) for i in t]
 

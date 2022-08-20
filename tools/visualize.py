@@ -34,36 +34,42 @@ for image in images:
 image_sum_z = images[-1]
 
 
-def find_diff_peaks(diff, count):
+def find_diff_peaks(diff: np.ndarray, count: int):
     # TODO diff = np.insert(diff, 0, 0)
     diff = np.append(diff, 0)
 
     return find_peaks(diff, height=max(diff) / LIM_HEIGHT, distance=len(diff) / (count * LIM_INTERVAL))[0]
 
 
-def find_blocks(image_block, count, lim=LIM_INTERVAL):
+def find_blocks(image_block: np.ndarray, count: int, lim: float = LIM_INTERVAL):
+    # TODO duplicite code
     image_sum = np.sum(image_block, axis=0)
-    image_sum = np.log(image_sum)  # / np.max(image_sum)
+    # image_sum = np.log(image_sum)  # / np.max(image_sum)
+    image_sum = image_sum / np.max(image_sum)
 
-    image_sum = savgol_filter(image_sum, 51, 5)
+    image_sum = savgol_filter(image_sum, 51, 10)  # TODO two constants
 
     diff = np.diff(image_sum)
-    # diff[np.abs(diff) <= 2 * diff.std()] = 0
+    # diff[np.abs(diff) <= 1 * diff.std()] = 0
 
     upper_peaks = find_diff_peaks(diff, count)
     lower_peaks = find_diff_peaks(diff * (-1), count)
 
-    block_positions = []
+    positions = []
+    positions_heights = []
 
     # Find all blocks
     for upper_peak in upper_peaks:
         for lower_peak in lower_peaks:
             if lower_peak > upper_peak:
                 if lower_peak - upper_peak >= len(diff) / count / lim:
-                    block_positions.append((upper_peak, lower_peak))
+                    positions.append((upper_peak, lower_peak))
+                    positions_heights.append((diff[upper_peak] * 50, abs(diff[lower_peak]) * 50))
                     break
 
-    return block_positions
+    assert len(set([m[0] for m in positions])) == len(set([m[1] for m in positions])), "Something went wrong - peaks"
+
+    return positions
 
 
 block_positions = find_blocks(image_sum_z, FIELD_COUNT)
@@ -76,6 +82,9 @@ draw_b = cropped_draw.copy()
 draw_c = cropped_draw.copy()
 
 for n, (block_start, block_end) in enumerate(block_positions):
+    if FILTER_BLOCKS is not None and n in FILTER_BLOCKS:
+        continue
+
     folder_path = os.path.join(PATH_RESULTS, f"block_{n + 1}")
     if not os.path.exists(folder_path):
         os.mkdir(folder_path)
@@ -87,8 +96,10 @@ for n, (block_start, block_end) in enumerate(block_positions):
     block_up = block[:round(block.shape[0] / BLOCK_PART), :]
     block_dw = block[block.shape[0] - round(block.shape[0] / BLOCK_PART):block.shape[0], :]
 
-    blocks_up = find_blocks(block_up, BLOCK_COUNT, 2.5)
-    blocks_dw = find_blocks(block_dw, BLOCK_COUNT, 2.5)
+    blocks_up = find_blocks(block_up, BLOCK_COUNT, 1.8)
+    blocks_dw = find_blocks(block_dw, BLOCK_COUNT, 1.8)
+
+    assert len(blocks_up) == len(blocks_dw), "sub-block count does not match"
 
     for j, ((up_start, up_end), (dw_start, dw_end)) in enumerate(zip(blocks_up, blocks_dw)):
         selected = df[df["y"] == j+1][df["x"] == n+1]

@@ -3,13 +3,15 @@ import glob
 import cv2
 import os
 
-SCALE = 1/6  # Fraction
-BIT_CONVERSION = True
+SCALE = 1/3  # Fraction
+BIT_CONVERSION = False
 SCALE_EXCEPT = ["compressed", "blocks", "fit", "histogram", "svg", "terrain", "sigmoid"]
 
 for i in glob.glob("docs/*"):
     if sum([j in i for j in SCALE_EXCEPT]) != 0:
         continue
+
+    print(i)
 
     if BIT_CONVERSION:
         image_16bit = cv2.imread(i, cv2.CV_16U)
@@ -22,7 +24,7 @@ for i in glob.glob("docs/*"):
     else:
         image_8bit = cv2.imread(i)
 
-    if "draw" in i or "count" in i:
+    if "draw" in i or "count" in i or "A" in i or "B" in i or "C" in i:
         image_gray = image_8bit
     else:
         image_gray = cv2.cvtColor(image_8bit, cv2.COLOR_BGR2GRAY)

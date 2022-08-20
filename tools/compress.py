@@ -3,7 +3,7 @@ import glob
 import cv2
 import os
 
-SCALE = 1/3  # Fraction
+SCALE = 1/2  # Fraction
 BIT_CONVERSION = False
 SCALE_EXCEPT = ["compressed", "blocks", "fit", "histogram", "svg", "terrain", "sigmoid"]
 
@@ -24,7 +24,7 @@ for i in glob.glob("docs/*"):
     else:
         image_8bit = cv2.imread(i)
 
-    if "draw" in i or "count" in i or "A" in i or "B" in i or "C" in i:
+    if "draw" in i or "count" in i or "A" in i or "B" in i or "C" in i or "height_diff_image" in i:
         image_gray = image_8bit
     else:
         image_gray = cv2.cvtColor(image_8bit, cv2.COLOR_BGR2GRAY)

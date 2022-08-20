@@ -12,6 +12,8 @@ import cv2
 MAX_FILTER_SIZE = 10
 FONT_SCALE = .7
 ROUND = 4
+FROM = 0
+TO = 5
 
 sns.set_theme()
 
@@ -20,6 +22,10 @@ uncropped = cv2.imread(sorted(glob.glob(f"{PATH_RESULTS}/*/{IMAGE_MEDIAN}{EXTENS
 image_first, image_last = images[1], images[-1]
 
 image = np.clip(image_last - image_first, 0, Z_MAX)
+
+x_offset = (image.shape[1] // 5 * FROM)
+image = image[:, x_offset:image.shape[1] // 5 * TO]
+
 image = maximum_filter(image, size=MAX_FILTER_SIZE)
 median = np.uint16(cv2.medianBlur(np.uint8(image / 255), MAX_FILTER_SIZE * 2 + 1)) * 255
 median_max = maximum_filter(median, size=MAX_FILTER_SIZE)
@@ -84,6 +90,7 @@ def calculate_point(row):
 
 
 df = df.apply(calculate_point, axis=1)
+df["x"] = df["x"] - x_offset
 df = df[(df["x"].astype(int).isin(range(image.shape[1]))) & (df["y"].astype(int).isin(range(image.shape[0])))]
 
 df["height_lidar"] = image[df["y"].astype(int), df["x"].astype(int)] / Z_MAX * (info["z_max"] - info["z_min"])
@@ -92,15 +99,11 @@ df["height_diff"] = df["height"] - df["height_lidar"]
 image_last = cv2.cvtColor(np.uint8(image / 255), cv2.COLOR_GRAY2RGB)
 
 for _, row in df.iterrows():
-    px = round(row["x"])
-    py = round(row["y"])
+    px, py = round(row["x"]), round(row["y"])
 
-    if px in range(image.shape[1]) and py in range(image.shape[0]):
-        c = image[py, px] / Z_MAX * (info["z_max"] - info["z_min"])
-
-        cv2.circle(image_last, (px, py), 5, (0, 0, 255), 1)
-        cv2.putText(image_last, f"{row['height']:.2f}", (px + 8, py - 10), cv2.FONT_HERSHEY_SIMPLEX, FONT_SCALE, (0, Z_MAX // 2, Z_MAX), 2)
-        cv2.putText(image_last, f"{c:.2f}", (px + 8, py + 20), cv2.FONT_HERSHEY_SIMPLEX, FONT_SCALE, (0, Z_MAX // 2, Z_MAX), 2)
+    cv2.circle(image_last, (px, py), 5, (0, 0, 255), 1)
+    cv2.putText(image_last, f"{row['height']:.2f}", (px + 8, py - 10), cv2.FONT_HERSHEY_SIMPLEX, FONT_SCALE, (0, Z_MAX // 2, Z_MAX), 2)
+    cv2.putText(image_last, f"{row['height_lidar']:.2f}", (px + 8, py + 20), cv2.FONT_HERSHEY_SIMPLEX, FONT_SCALE, (Z_MAX //2, Z_MAX // 2, Z_MAX), 2)
 
 for df_what, df_name in [(df["height_diff"], ""), (np.abs(df["height_diff"]), " of abs")]:
     print("Mean" + df_name, round(df_what.mean(), ROUND))

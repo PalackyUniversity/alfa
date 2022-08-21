@@ -1,4 +1,4 @@
-# Alfan
+# Alfa
 Program with graphical user interface for analyzing and evaluating field heights over time captured by LiDAR on a drone.  
 
 ## How it works
